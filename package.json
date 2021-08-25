@@ -1,0 +1,26 @@
+{
+  "name": "@rpgtec/use-storage",
+  "description": "Make state shareable, accessible and extensible.",
+  "version": "0.0.0",
+  "main": "src/index.js",
+  "keywords": [
+    "react",
+    "hooks",
+    "state",
+    "context",
+    "storage",
+    "localstorage",
+    "sessionstorage"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rpgtec/use-storage.git"
+  },
+  "homepage": "https://github.com/rpgtec/use-storage",
+  "author": {
+    "name": "Shota Hamabe",
+    "email": "shamabe@hackers.bar",
+    "url": "https://hackers.bar"
+  },
+  "license": "MIT"
+}
