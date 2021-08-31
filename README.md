@@ -56,7 +56,7 @@ The usage of `state` and `setState` is almost the same as that of `useState`
 | ------------ | :------: | ----------- |
 | key          | `string` | Set a key name to identify what the state is.<br>Synchronize states with the same key. |
 | initialState | `any`    | Return initialState when the state is undefined.<br>If initialState is a `function`, return the result of the function call. |
-| storage      | `object` | **\[Optional\]** default storage is a simple object in memory.<br>You can pass any object that has property access.<br>For example, use localStorage to create a persistent state. |
+| storage      | `object` | **\[Optional\]**<br>default storage is a wrapper of simple object in memory.<br>You can also use your own [custom storage](#4-use-your-own-custom-storage-advanced-usage). |
 
 ## API
 
@@ -124,7 +124,7 @@ function CountTool() {
 ### 3. `Make state extensible` using localStorage / sessionStorage
 
 ```jsx
-import { useStorage, useLocalStorage } from '@rpgtec/use-storage'
+import { useLocalStorage } from '@rpgtec/use-storage'
 
 function ComponentA() {
   // Make a persistent state
@@ -140,12 +140,9 @@ function ComponentB() {
 }
 ```
 
-You can also use your own custom storage! (advanced usage)
+### 4. Use your own custom storage (advanced usage)
 
-<details>
-<summary>Sample Code</summary>
-
-```js
+```jsx
 import { useStorage } from '@rpgtec/use-storage'
 
 // Storage must have get / set methods
@@ -166,7 +163,6 @@ function Component() {
   return <input value={query} onChange={event => setQuery(event.target.value)} />
 }
 ```
-</details>
 
 ---
 Happy hacking!
