@@ -1,21 +1,25 @@
 import { useState, useEffect, useCallback } from 'react'
+import { ObjectStorage, StorageStorage } from './wrapper'
 
-const defaultStorage = {}
+const defaultStorage = new ObjectStorage({})
+const lsStorage = new StorageStorage(localStorage)
+const ssStorage = new StorageStorage(sessionStorage)
 
 export const useStorage = (key, initialState, storage) => {
   const [value, _setValue] = useState(() => getStorage(key, initialState, storage))
   const setValue = useCallback(value => setStorage(key, value, storage), [key, storage])
 
   useEffect(() => {
+    const isStorageStorage = storage instanceof StorageStorage
     const onchange = event => _setValue(event.detail.value)
     const onstorage = event => event.key === key && _setValue(JSON.parse(event.newValue))
 
     window.addEventListener('us:' + key, onchange)
-    if (storage instanceof Storage) window.addEventListener('storage', onstorage)
+    if (isStorageStorage) window.addEventListener('storage', onstorage)
 
     return () => {
       window.removeEventListener('us:' + key, onchange)
-      if (storage instanceof Storage) window.removeEventListener('storage', onstorage)
+      if (isStorageStorage) window.removeEventListener('storage', onstorage)
     }
   }, [key, storage])
 
@@ -24,36 +28,31 @@ export const useStorage = (key, initialState, storage) => {
 
 export const getStorage = (key, initialState, storage = defaultStorage) => {
   if (typeof key !== 'string' || key === '') throw new TypeError('key is required')
-  const value = storage[key]
-  if (value !== undefined) {
-    try {
-      return storage instanceof Storage ? JSON.parse(value) : value
-    } catch {}
-  }
+
+  const value = storage.get(key)
+  if (value !== undefined) return value
+
   if (initialState !== undefined) {
     const value = initialState instanceof Function ? initialState() : initialState
-    storage[key] = storage instanceof Storage ? JSON.stringify(value) : value
+    storage.set(key, value)
     return value
   }
 }
 
 export const setStorage = (key, value, storage = defaultStorage) => {
   if (typeof key !== 'string' || key === '') throw new TypeError('key is required')
+
   if (value instanceof Function) {
-    let currentValue
-    try {
-      currentValue = storage instanceof Storage ? JSON.parse(storage[key]) : storage[key]
-    } catch {}
-    value = value(currentValue)
+    value = value(storage.get(key))
   }
-  storage[key] = storage instanceof Storage ? JSON.stringify(value) : value
+  storage.set(key, value)
   window.dispatchEvent(new CustomEvent('us:' + key, { detail: { value } }))
 }
 
-export const useLocalStorage = (key, initialState) => useStorage(key, initialState, localStorage)
-export const getLocalStorage = (key, initialState) => getStorage(key, initialState, localStorage)
-export const setLocalStorage = (key, value) => setStorage(key, value, localStorage)
+export const useLocalStorage = (key, initialState) => useStorage(key, initialState, lsStorage)
+export const getLocalStorage = (key, initialState) => getStorage(key, initialState, lsStorage)
+export const setLocalStorage = (key, value) => setStorage(key, value, ls)
 
-export const useSessionStorage = (key, initialState) => useStorage(key, initialState, sessionStorage)
-export const getSessionStorage = (key, initialState) => getStorage(key, initialState, sessionStorage)
-export const setSessionStorage = (key, value) => setStorage(key, value, sessionStorage)
+export const useSessionStorage = (key, initialState) => useStorage(key, initialState, ssStorage)
+export const getSessionStorage = (key, initialState) => getStorage(key, initialState, ssStorage)
+export const setSessionStorage = (key, value) => setStorage(key, value, ssStorage)

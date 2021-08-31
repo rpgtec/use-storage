@@ -128,12 +128,13 @@ import { useStorage, useLocalStorage } from '@rpgtec/use-storage'
 
 function ComponentA() {
   // Make a persistent state
-  const [query, setQuery] = useStorage('query', '', localStorage)
+  const [query, setQuery] = useLocalStorage('query', '')
   return <input value={query} onChange={event => setQuery(event.target.value)} />
 }
 
 function ComponentB() {
-  // This is syntax sugar!
+  // Synchronize states with the same key
+  // And, state is remembered even if you reload
   const [query, setQuery] = useLocalStorage('query', '')
   return <input value={query} onChange={event => setQuery(event.target.value)} />
 }
@@ -145,19 +146,20 @@ You can also use your own custom storage! (advanced usage)
 <summary>Sample Code</summary>
 
 ```js
-import { useSharedStorage } from '@rpgtec/use-storage'
+import { useStorage } from '@rpgtec/use-storage'
 
-const customStorage = new Proxy({}, {
-  get: function (storage, key) {
+// Storage must have get / set methods
+const customStorage = (obj => ({
+  get: key => {
     console.log('get', key) // do something
-    return storage[key]
+    return obj[key]
   },
-  set: function (storage, key, value) {
+  set: (key, value) => {
     console.log('set', key, value) // do something
     storage[key] = value
-    return true
-  },
-})
+    return value
+  }
+}))({})
 
 function Component() {
   const [query, setQuery] = useStorage('query', '', customStorage)
