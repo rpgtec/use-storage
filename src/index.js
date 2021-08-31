@@ -2,8 +2,10 @@ import { useState, useEffect, useCallback } from 'react'
 import { ObjectStorage, StorageStorage } from './wrapper'
 
 const defaultStorage = new ObjectStorage({})
-const lsStorage = new StorageStorage(localStorage)
-const ssStorage = new StorageStorage(sessionStorage)
+
+const storageEnabled = navigator.cookieEnabled
+const lsStorage = storageEnabled ? new StorageStorage(localStorage) : new ObjectStorage({})
+const ssStorage = storageEnabled ? new StorageStorage(sessionStorage) : new ObjectStorage({})
 
 export const useStorage = (key, initialState, storage) => {
   const [value, _setValue] = useState(() => getStorage(key, initialState, storage))
