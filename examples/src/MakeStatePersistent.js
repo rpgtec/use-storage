@@ -1,7 +1,7 @@
 import { useLocalStorage } from '@rpgtec/use-storage'
 
 function ComponentA() {
-  const [query, setQuery] = useLocalStorage('persistentQuery', '')
+  const [query, setQuery] = useLocalStorage('query', '')
   return (
     <input
       value={query}
@@ -12,7 +12,7 @@ function ComponentA() {
 }
 
 function ComponentB() {
-  const [query, setQuery] = useLocalStorage('persistentQuery', '')
+  const [query, setQuery] = useLocalStorage('query', '')
   return (
     <input
       value={query}

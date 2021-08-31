@@ -7,22 +7,22 @@ const storageEnabled = navigator.cookieEnabled
 const lsStorage = storageEnabled ? new StorageStorage(localStorage) : new ObjectStorage({})
 const ssStorage = storageEnabled ? new StorageStorage(sessionStorage) : new ObjectStorage({})
 
-export const useStorage = (key, initialState, storage) => {
+if (storageEnabled) {
+  window.addEventListener('storage', event => {
+    const storage = event.storageArea === lsStorage.storage ? lsStorage : ssStorage
+    const value = JSON.parse(event.newValue)
+    storage.eventTarget.dispatchEvent(new CustomEvent(event.key, { detail: { value } }))
+  })
+}
+
+export const useStorage = (key, initialState, storage = defaultStorage) => {
   const [value, _setValue] = useState(() => getStorage(key, initialState, storage))
   const setValue = useCallback(value => setStorage(key, value, storage), [key, storage])
 
   useEffect(() => {
-    const isStorageStorage = storage instanceof StorageStorage
     const onchange = event => _setValue(event.detail.value)
-    const onstorage = event => event.key === key && _setValue(JSON.parse(event.newValue))
-
-    window.addEventListener('us:' + key, onchange)
-    if (isStorageStorage) window.addEventListener('storage', onstorage)
-
-    return () => {
-      window.removeEventListener('us:' + key, onchange)
-      if (isStorageStorage) window.removeEventListener('storage', onstorage)
-    }
+    storage.eventTarget.addEventListener(key, onchange)
+    return () => storage.eventTarget.removeEventListener(key, onchange)
   }, [key, storage])
 
   return [value, setValue]
@@ -44,11 +44,9 @@ export const getStorage = (key, initialState, storage = defaultStorage) => {
 export const setStorage = (key, value, storage = defaultStorage) => {
   if (typeof key !== 'string' || key === '') throw new TypeError('key is required')
 
-  if (value instanceof Function) {
-    value = value(storage.get(key))
-  }
+  if (value instanceof Function) value = value(storage.get(key))
   storage.set(key, value)
-  window.dispatchEvent(new CustomEvent('us:' + key, { detail: { value } }))
+  storage.eventTarget.dispatchEvent(new CustomEvent(key, { detail: { value } }))
 }
 
 export const useLocalStorage = (key, initialState) => useStorage(key, initialState, lsStorage)
