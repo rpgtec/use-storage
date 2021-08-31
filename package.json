@@ -12,6 +12,12 @@
     "localstorage",
     "sessionstorage"
   ],
+  "devDependencies": {
+    "react": ">=16.8"
+  },
+  "peerDependencies": {
+    "react": ">=16.8"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/rpgtec/use-storage.git"

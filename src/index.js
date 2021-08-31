@@ -28,7 +28,7 @@ export const getStorage = (key, initialState, storage = defaultStorage) => {
   if (value !== undefined) {
     try {
       return storage instanceof Storage ? JSON.parse(value) : value
-    } catch {}
+    } catch (error) {}
   }
   if (initialState !== undefined) {
     const value = initialState instanceof Function ? initialState() : initialState
@@ -43,7 +43,7 @@ export const setStorage = (key, value, storage = defaultStorage) => {
     let currentValue
     try {
       currentValue = storage instanceof Storage ? JSON.parse(storage[key]) : storage[key]
-    } catch {}
+    } catch (error) {}
     value = value(currentValue)
   }
   storage[key] = storage instanceof Storage ? JSON.stringify(value) : value
