@@ -10,11 +10,11 @@ export const useStorage = (key, initialState, storage) => {
     const onchange = event => _setValue(event.detail.value)
     const onstorage = event => event.key === key && _setValue(JSON.parse(event.newValue))
 
-    window.addEventListener('rns:' + key, onchange)
+    window.addEventListener('us:' + key, onchange)
     if (storage instanceof Storage) window.addEventListener('storage', onstorage)
 
     return () => {
-      window.removeEventListener('rns:' + key, onchange)
+      window.removeEventListener('us:' + key, onchange)
       if (storage instanceof Storage) window.removeEventListener('storage', onstorage)
     }
   }, [key, storage])
@@ -28,7 +28,7 @@ export const getStorage = (key, initialState, storage = defaultStorage) => {
   if (value !== undefined) {
     try {
       return storage instanceof Storage ? JSON.parse(value) : value
-    } catch (error) {}
+    } catch {}
   }
   if (initialState !== undefined) {
     const value = initialState instanceof Function ? initialState() : initialState
@@ -43,11 +43,11 @@ export const setStorage = (key, value, storage = defaultStorage) => {
     let currentValue
     try {
       currentValue = storage instanceof Storage ? JSON.parse(storage[key]) : storage[key]
-    } catch (error) {}
+    } catch {}
     value = value(currentValue)
   }
   storage[key] = storage instanceof Storage ? JSON.stringify(value) : value
-  window.dispatchEvent(new CustomEvent('rns:' + key, { detail: { value } }))
+  window.dispatchEvent(new CustomEvent('us:' + key, { detail: { value } }))
 }
 
 export const useLocalStorage = (key, initialState) => useStorage(key, initialState, localStorage)

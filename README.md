@@ -3,7 +3,11 @@
 2. [`Make state accessible` without re-rendering component](#2-make-state-accessible-without-re-rendering-component)
 3. [`Make state extensible` using localStorage / sessionStorage (or your own storage)](#3-make-state-extensible-using-localstorage--sessionstorage)
 
-## Install
+## Demo
+
+[![CodeSandbox Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/rpgtec/use-storage/tree/main/examples/?file=/src/index.js)
+
+## Installation
 
 ```sh
 # Using npm
@@ -137,7 +141,8 @@ function ComponentB() {
 
 You can also use your own custom storage! (advanced usage)
 
-<details><summary>Sample Code</summary><div>
+<details>
+<summary>Sample Code</summary>
 
 ```js
 import { useSharedStorage } from '@rpgtec/use-storage'
@@ -159,7 +164,7 @@ function Component() {
   return <input value={query} onChange={event => setQuery(event.target.value)} />
 }
 ```
-</div></details>
+</details>
 
 ---
 Happy hacking!

@@ -12,9 +12,6 @@
     "localstorage",
     "sessionstorage"
   ],
-  "devDependencies": {
-    "react": ">=16.8"
-  },
   "peerDependencies": {
     "react": ">=16.8"
   },
