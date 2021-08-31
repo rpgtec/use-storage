@@ -1,0 +1,35 @@
+{
+  "name": "@rpgtec/use-storage-examples",
+  "dependencies": {
+    "@rpgtec/use-storage": "^0.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3"
+  },
+  "scripts": {
+    "preinstall": "yarn link --cwd ../ && yarn link @rpgtec/use-storage",
+    "start": "react-scripts start"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      "last 2 chrome version",
+      "last 2 safari version",
+      "last 2 firefox version",
+      "last 2 and_chr version",
+      "last 2 ios_saf version"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 safari version",
+      "last 1 firefox version",
+      "last 1 and_chr version",
+      "last 1 ios_saf version"
+    ]
+  },
+  "license": "MIT"
+}
