@@ -11,30 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Check version changes
-        uses: EndBug/version-check@v1
-        id: check
-
       - name: Set up Node.js for NPM
-        if: steps.check.outputs.changed == 'true'
         uses: actions/setup-node@v2
         with:
           registry-url: 'https://registry.npmjs.org/'
 
       - name: Publish package to NPM
-        if: steps.check.outputs.changed == 'true'
         run: npm publish --access public --@rpgtec:registry=https://registry.npmjs.org
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Set up Node.js for GPR
-        if: steps.check.outputs.changed == 'true'
         uses: actions/setup-node@v2
         with:
           registry-url: 'https://npm.pkg.github.com/'
 
       - name: Publish package to GPR
-        if: steps.check.outputs.changed == 'true'
         run: npm publish --access public --@rpgtec:registry=https://npm.pkg.github.com
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
