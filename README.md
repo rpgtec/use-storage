@@ -151,16 +151,16 @@ const numberOnlyStorage = (obj => ({
   get: key => {
     return obj[key]
   },
-  set: (key, value) => {
+  set: (key, value = '') => {
     // Convert value to numbers only!
-    obj[key] = (value || '0').replace(/[^0-9]/g, '').replace(/^0+([0-9])/, '$1')
+    obj[key] = value.replace(/[^0-9]/g, '').replace(/^0+([0-9])/, '$1') || '0'
     return obj[key]
   },
 }))({})
 
 function Component() {
-  const [query, setQuery] = useStorage('query', '', numberOnlyStorage)
-  return <input value={query} onChange={event => setQuery(event.target.value)} />
+  const [number, setNumber] = useStorage('number', '0', numberOnlyStorage)
+  return <input value={number} onChange={event => setNumber(event.target.value)} />
 }
 ```
 
