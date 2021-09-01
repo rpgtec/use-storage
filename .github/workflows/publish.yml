@@ -2,8 +2,8 @@ name: Publish to NPM and GPR
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
   publish:
