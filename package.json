@@ -1,7 +1,7 @@
 {
   "name": "@rpgtec/use-storage",
   "description": "Make state shareable, accessible, persistent, etc...",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "src/index.js",
   "keywords": [
     "react",
