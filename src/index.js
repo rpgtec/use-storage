@@ -21,6 +21,7 @@ export const useStorage = (key, initialState, storage = defaultStorage) => {
 
   useEffect(() => {
     const onchange = event => _setValue(event.detail.value)
+    storage.eventTarget = storage.eventTarget || new EventTarget()
     storage.eventTarget.addEventListener(key, onchange)
     return () => storage.eventTarget.removeEventListener(key, onchange)
   }, [key, storage])
@@ -45,7 +46,8 @@ export const setStorage = (key, value, storage = defaultStorage) => {
   if (typeof key !== 'string' || key === '') throw new TypeError('key is required')
 
   if (value instanceof Function) value = value(storage.get(key))
-  storage.set(key, value)
+  value = storage.set(key, value)
+  storage.eventTarget = storage.eventTarget || new EventTarget()
   storage.eventTarget.dispatchEvent(new CustomEvent(key, { detail: { value } }))
 }
 

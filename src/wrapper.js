@@ -1,7 +1,6 @@
 export class ObjectStorage {
   constructor(storage) {
     this.storage = storage
-    this.eventTarget = new EventTarget()
   }
   get(key) {
     return this.storage[key]
@@ -19,7 +18,6 @@ export class ObjectStorage {
 export class StorageStorage {
   constructor(storage) {
     this.storage = storage
-    this.eventTarget = new EventTarget()
   }
   get(key) {
     const value = this.storage[key]

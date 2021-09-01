@@ -1,7 +1,7 @@
 {
   "name": "@rpgtec/use-storage-examples",
   "dependencies": {
-    "@rpgtec/use-storage": "^1.0.0",
+    "@rpgtec/use-storage": "^1.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3"

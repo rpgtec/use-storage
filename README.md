@@ -1,7 +1,8 @@
 # @rpgtec/use-storage
 1. [`Make state shareable` without using context](#1-make-state-shareable-without-using-context)
 2. [`Make state accessible` without re-rendering component](#2-make-state-accessible-without-re-rendering-component)
-3. [`Make state extensible` using localStorage / sessionStorage (or your own storage)](#3-make-state-extensible-using-localstorage--sessionstorage)
+3. [`Make state extensible` using your own custom storage](#3-make-state-extensible-using-your-own-custom-storage)
+4. [`Make state persistent` using localStorage](#4-make-state-persistent-using-localstorage)
 
 ## Demo
 
@@ -96,7 +97,26 @@ function ComponentB() {
 }
 ```
 
-### 2. `Make state accessible` without re-rendering component
+### 2. `Make state persistent` using localStorage
+
+```jsx
+import { useLocalStorage } from '@rpgtec/use-storage'
+
+function ComponentA() {
+  // To make a persistent state, use useLocalStorage instead of useStorage
+  const [query, setQuery] = useLocalStorage('query', '')
+  return <input value={query} onChange={event => setQuery(event.target.value)} />
+}
+
+function ComponentB() {
+  // A persistent state is also synchronized with the state of the same key
+  // And, state is remembered even if you reload
+  const [query, setQuery] = useLocalStorage('query', '')
+  return <input value={query} onChange={event => setQuery(event.target.value)} />
+}
+```
+
+### 3. `Make state accessible` without re-rendering component
 
 ```jsx
 import { useStorage, setStorage, getStorage } from '@rpgtec/use-storage'
@@ -121,45 +141,25 @@ function CountTool() {
 }
 ```
 
-### 3. `Make state extensible` using localStorage / sessionStorage
-
-```jsx
-import { useLocalStorage } from '@rpgtec/use-storage'
-
-function ComponentA() {
-  // Make a persistent state
-  const [query, setQuery] = useLocalStorage('query', '')
-  return <input value={query} onChange={event => setQuery(event.target.value)} />
-}
-
-function ComponentB() {
-  // Synchronize states with the same key
-  // And, state is remembered even if you reload
-  const [query, setQuery] = useLocalStorage('query', '')
-  return <input value={query} onChange={event => setQuery(event.target.value)} />
-}
-```
-
-### 4. Use your own custom storage (advanced usage)
+### 4. `Make state extensible` using your own custom storage
 
 ```jsx
 import { useStorage } from '@rpgtec/use-storage'
 
 // Storage must have get / set methods
-const customStorage = (obj => ({
+const numberOnlyStorage = (obj => ({
   get: key => {
-    console.log('get', key) // do something
     return obj[key]
   },
   set: (key, value) => {
-    console.log('set', key, value) // do something
-    storage[key] = value
-    return value
-  }
+    // Convert value to numbers only!
+    obj[key] = (value || '0').replace(/[^0-9]/g, '').replace(/^0+([0-9])/, '$1')
+    return obj[key]
+  },
 }))({})
 
 function Component() {
-  const [query, setQuery] = useStorage('query', '', customStorage)
+  const [query, setQuery] = useStorage('query', '', numberOnlyStorage)
   return <input value={query} onChange={event => setQuery(event.target.value)} />
 }
 ```

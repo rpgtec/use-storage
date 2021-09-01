@@ -18,3 +18,8 @@ npm start
 yarn
 yarn start
 ```
+
+`@rpgtec/use-storage` module is imported from the parent directory, so it's easy to fix.
+
+---
+Happy hacking!

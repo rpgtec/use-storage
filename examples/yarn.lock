@@ -1549,10 +1549,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rpgtec/use-storage@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@rpgtec/use-storage/-/use-storage-0.0.1.tgz#0915753ab414715119e0b6fc1c0d2b7e04022516"
-  integrity sha512-hh0Y1rsp2Bd/+AJnOjw0YaNPnLCIEsNY9bpgMm7GXz82zHX46Nt1lpSkhq1Sdu78S/qwOQrFmh8MP/GM2P1PIA==
+"@rpgtec/use-storage@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@rpgtec/use-storage/-/use-storage-1.0.1.tgz#9c57e4e1f99bd88e08e4d3017f49d8955196cf62"
+  integrity sha512-TRLqBz/qxpTZ1S9cym7GB0T6pN0UlwDG9RjUKVPtBpzPYggZ4Dl9rQpt5fl2aQ8T+LdLEo0jvorZeVJriRFJ8w==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"

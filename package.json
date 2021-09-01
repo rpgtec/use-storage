@@ -1,6 +1,6 @@
 {
   "name": "@rpgtec/use-storage",
-  "description": "Make state shareable, accessible and extensible.",
+  "description": "Make state shareable, accessible, persistentable, etc...",
   "version": "1.0.1",
   "main": "src/index.js",
   "keywords": [
