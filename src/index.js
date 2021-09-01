@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react'
-import { ObjectStorage, StorageStorage } from './wrapper'
-
-const defaultStorage = new ObjectStorage({})
+import { ObjectStorage, JSONStorage } from './storage'
 
 const storageEnabled = navigator.cookieEnabled
-const lsStorage = storageEnabled ? new StorageStorage(localStorage) : new ObjectStorage({})
-const ssStorage = storageEnabled ? new StorageStorage(sessionStorage) : new ObjectStorage({})
+
+const defaultStorage = new ObjectStorage()
+const lsStorage = storageEnabled ? new JSONStorage(localStorage) : new ObjectStorage()
+const ssStorage = storageEnabled ? new JSONStorage(sessionStorage) : new ObjectStorage()
 
 if (storageEnabled) {
   window.addEventListener('storage', event => {
@@ -21,8 +21,8 @@ export const useStorage = (key, initialState, storage = defaultStorage) => {
 
   useEffect(() => {
     const onchange = event => _setValue(event.detail.value)
-    storage.eventTarget = storage.eventTarget || new EventTarget()
-    storage.eventTarget.addEventListener(key, onchange)
+    storage.et = storage.et || new EventTarget()
+    storage.et.addEventListener(key, onchange)
     return () => storage.eventTarget.removeEventListener(key, onchange)
   }, [key, storage])
 
@@ -47,8 +47,8 @@ export const setStorage = (key, value, storage = defaultStorage) => {
 
   if (value instanceof Function) value = value(storage.get(key))
   value = storage.set(key, value)
-  storage.eventTarget = storage.eventTarget || new EventTarget()
-  storage.eventTarget.dispatchEvent(new CustomEvent(key, { detail: { value } }))
+
+  storage.et && storage.et.dispatchEvent(new CustomEvent(key, { detail: { value } }))
 }
 
 export const useLocalStorage = (key, initialState) => useStorage(key, initialState, lsStorage)

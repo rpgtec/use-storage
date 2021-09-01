@@ -13,7 +13,7 @@ const numberOnlyStorage = (obj => ({
 }))({})
 
 export default function MakeStateExtensible({ title }) {
-  const [number, setNumber] = useStorage('number', '', numberOnlyStorage)
+  const [number, setNumber] = useStorage('number', '0', numberOnlyStorage)
   return (
     <section>
       <h1>{title}</h1>

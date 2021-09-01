@@ -1,5 +1,5 @@
 export class ObjectStorage {
-  constructor(storage) {
+  constructor(storage = {}) {
     this.storage = storage
   }
   get(key) {
@@ -15,8 +15,8 @@ export class ObjectStorage {
   }
 }
 
-export class StorageStorage {
-  constructor(storage) {
+export class JSONStorage {
+  constructor(storage = {}) {
     this.storage = storage
   }
   get(key) {
