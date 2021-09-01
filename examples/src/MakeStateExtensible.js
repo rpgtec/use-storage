@@ -5,9 +5,9 @@ const numberOnlyStorage = (obj => ({
   get: key => {
     return obj[key]
   },
-  set: (key, value) => {
+  set: (key, value = '') => {
     // Convert value to numbers only!
-    obj[key] = (value || '0').replace(/[^0-9]/g, '').replace(/^0+([0-9])/, '$1')
+    obj[key] = value.replace(/[^0-9]/g, '').replace(/^0+([0-9])/, '$1') || '0'
     return obj[key]
   },
 }))({})
