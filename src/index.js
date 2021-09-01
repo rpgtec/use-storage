@@ -23,7 +23,7 @@ export const useStorage = (key, initialState, storage = defaultStorage) => {
     const onchange = event => _setValue(event.detail.value)
     storage.et = storage.et || new EventTarget()
     storage.et.addEventListener(key, onchange)
-    return () => storage.eventTarget.removeEventListener(key, onchange)
+    return () => storage.et.removeEventListener(key, onchange)
   }, [key, storage])
 
   return [value, setValue]
