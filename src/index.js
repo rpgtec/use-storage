@@ -37,8 +37,7 @@ export const getStorage = (key, initialState, storage = defaultStorage) => {
 
   if (initialState !== undefined) {
     const value = initialState instanceof Function ? initialState() : initialState
-    storage.set(key, value)
-    return value
+    return storage.set(key, value)
   }
 }
 
