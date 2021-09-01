@@ -1,8 +1,8 @@
 # @rpgtec/use-storage
 1. [`Make state shareable` without using context](#1-make-state-shareable-without-using-context)
-2. [`Make state accessible` without re-rendering component](#2-make-state-accessible-without-re-rendering-component)
-3. [`Make state extensible` using your own custom storage](#3-make-state-extensible-using-your-own-custom-storage)
-4. [`Make state persistent` using localStorage](#4-make-state-persistent-using-localstorage)
+4. [`Make state persistent` using localStorage](#2-make-state-persistent-using-localstorage)
+2. [`Make state accessible` without re-rendering component](#3-make-state-accessible-without-re-rendering-component)
+3. [`Make state extensible` using your own custom storage](#4-make-state-extensible-using-your-own-custom-storage)
 
 ## Demo
 
