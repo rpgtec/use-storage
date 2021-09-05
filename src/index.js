@@ -11,7 +11,7 @@ if (storageEnabled) {
   window.addEventListener('storage', event => {
     const storage = event.storageArea === lsStorage.storage ? lsStorage : ssStorage
     const value = JSON.parse(event.newValue)
-    storage.eventTarget.dispatchEvent(new CustomEvent(event.key, { detail: { value } }))
+    storage.et.dispatchEvent(new CustomEvent(event.key, { detail: { value } }))
   })
 }
 
