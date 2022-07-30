@@ -52,7 +52,7 @@ export const setStorage = (key, value, storage = defaultStorage) => {
 
 export const useLocalStorage = (key, initialState) => useStorage(key, initialState, lsStorage)
 export const getLocalStorage = (key, initialState) => getStorage(key, initialState, lsStorage)
-export const setLocalStorage = (key, value) => setStorage(key, value, ls)
+export const setLocalStorage = (key, value) => setStorage(key, value, lsStorage)
 
 export const useSessionStorage = (key, initialState) => useStorage(key, initialState, ssStorage)
 export const getSessionStorage = (key, initialState) => getStorage(key, initialState, ssStorage)
