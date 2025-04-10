@@ -8,10 +8,13 @@ const lsStorage = storageEnabled ? new JSONStorage(localStorage) : new ObjectSto
 const ssStorage = storageEnabled ? new JSONStorage(sessionStorage) : new ObjectStorage()
 
 if (storageEnabled) {
-  window.addEventListener('storage', event => {
-    const storage = event.storageArea === lsStorage.storage ? lsStorage : ssStorage
-    const value = JSON.parse(event.newValue)
-    storage.et.dispatchEvent(new CustomEvent(event.key, { detail: { value } }))
+  window.addEventListener('storage', ({ key, newValue, storageArea }) => {
+    const storage = storageArea === lsStorage.storage ? lsStorage : ssStorage
+    if (!storage.et) return
+    try {
+      const value = JSON.parse(newValue)
+      storage.et.dispatchEvent(new CustomEvent(key, { detail: { value } }))
+    } catch {}
   })
 }
 
@@ -34,20 +37,16 @@ export const getStorage = (key, initialState, storage = defaultStorage) => {
 
   const value = storage.get(key)
   if (value !== undefined) return value
-
-  if (initialState !== undefined) {
-    const value = initialState instanceof Function ? initialState() : initialState
-    return storage.set(key, value)
-  }
+  if (initialState === undefined) return undefined
+  return storage.set(key, initialState instanceof Function ? initialState() : initialState)
 }
 
 export const setStorage = (key, value, storage = defaultStorage) => {
   if (typeof key !== 'string' || key === '') throw new TypeError('key is required')
 
-  if (value instanceof Function) value = value(storage.get(key))
-  value = storage.set(key, value)
-
-  storage.et && storage.et.dispatchEvent(new CustomEvent(key, { detail: { value } }))
+  const newValue = value instanceof Function ? value(storage.get(key)) : value
+  const returnValue = storage.set(key, newValue)
+  storage.et && storage.et.dispatchEvent(new CustomEvent(key, { detail: { value: returnValue } }))
 }
 
 export const useLocalStorage = (key, initialState) => useStorage(key, initialState, lsStorage)
